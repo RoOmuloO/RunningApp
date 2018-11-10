@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_login"
+            android:icon="@android:drawable/ic_secure"
+            android:title="Acessar Sistema" />
+        <item
+            android:id="@+id/nav_listaCorridas"
+            android:icon="@android:drawable/ic_dialog_dialer"
+            android:title="Listar Corridas" />
+        <item
+            android:id="@+id/nav_sobre"
+            android:icon="?android:attr/alertDialogIcon"
+            android:title="Sobre o Aplicativo" />
+        <item
+            android:id="@+id/nav_sairSistema"
+            android:icon="@android:drawable/ic_delete"
+            android:title="Sair do Sistema" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_cadastrarCorrida"
+                android:icon="@android:drawable/ic_input_add"
+                android:title="Cadastrar Corrida" />
+            <item
+                android:id="@+id/nav_cadastrarAtleta"
+                android:icon="@android:drawable/ic_input_add"
+                android:title="Cadastrar Atleta" />
+        </menu>
+    </item>
+
+</menu>

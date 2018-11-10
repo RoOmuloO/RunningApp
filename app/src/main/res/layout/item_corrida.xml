@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="148dp">
+
+        <ImageView
+            android:id="@+id/imgTipoCorrida"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/txtItemInscricaoNomeCorrida"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Corrida do Outubro Rosa"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtItemInscricaoDataCorrida"
+            android:layout_width="127dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="20/04/1995"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
+            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoNomeCorrida"
+            app:layout_constraintVertical_bias="0.026" />
+
+        <TextView
+            android:id="@+id/txtItemInscricaoValorInscricao"
+            android:layout_width="127dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="end"
+            android:text="R$ 150,00"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoNomeCorrida"
+            app:layout_constraintVertical_bias="0.026" />
+
+        <TextView
+            android:id="@+id/txtItemCorridaTipoCorrida"
+            android:layout_width="127dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="12dp"
+            android:text="Maratona"
+            android:textAlignment="textEnd"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/txtItemInscricaoValorInscricao"
+            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoValorInscricao" />
+
+        <TextView
+            android:id="@+id/txtItemCorridaHorario"
+            android:layout_width="127dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="09:00 Hs"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
+            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoDataCorrida" />
+
+        <TextView
+            android:id="@+id/txtItemCorridaLocalCorrida"
+            android:layout_width="0dp"
+            android:layout_height="27dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Local: Centro - Juiz de Fora"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
+            tools:layout_editor_absoluteY="115dp" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.constraint.ConstraintLayout>

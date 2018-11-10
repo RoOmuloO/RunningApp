@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragment.ListaCorridas">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="63dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtTelaListaCorridasPesquisa"
+                android:layout_width="276dp"
+                android:layout_height="match_parent"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/btnTelaListaCorridasFiltrar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Filtrar"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listaCorridas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+</FrameLayout>
