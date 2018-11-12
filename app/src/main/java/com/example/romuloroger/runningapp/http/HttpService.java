@@ -13,7 +13,7 @@ import java.util.List;
 
 public class HttpService<T extends Object> {
 
-    private final String apiUrl = "http://192.168.0.100:3000/";
+    private final String apiUrl = "https://api.davesmartins.com.br/api/";
     private final Class<T> type;
     private String resource;
 
@@ -23,39 +23,39 @@ public class HttpService<T extends Object> {
         this.type = type;
     }
 
-    public List<T> getAll(Class<T[]> type) {
+    public List<T> getAll(String action, Class<T[]> type) {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
-        T[] array = restTemplate.getForObject(apiUrl + resource, type);
+        T[] array = restTemplate.getForObject(apiUrl + resource + action, type);
         return Arrays.asList(array);
     }
 
-    public T getById(int id) {
+    public T getById(String action) {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
-        T response = restTemplate.getForObject(apiUrl + resource + "/" + id, type);
+        T response = restTemplate.getForObject(apiUrl + resource + action, type);
         return response;
     }
 
 
-    public T post(T body) {
+    public T post(String action, T body) {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(body);
-        T response = restTemplate.postForObject(apiUrl + resource, entity, type);
+        T response = restTemplate.postForObject(apiUrl + resource + action, entity, type);
         return response;
     }
 
-    public T put(int id, T data) {
+    public T put(String action, T data) {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(data);
-        ResponseEntity<T> response = restTemplate.exchange(apiUrl + resource + "/" + id, HttpMethod.PUT, entity, type);
+        ResponseEntity<T> response = restTemplate.exchange(apiUrl + resource + action, HttpMethod.PUT, entity, type);
         return response.getBody();
     }
 
-    public void delete(int id) {
+    public void delete(String action) {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
-        restTemplate.delete(apiUrl + resource + "/" + id, entity);
+        restTemplate.delete(apiUrl + resource + action, entity);
     }
 
     private HttpEntity<T> configurarHttpEntity(T data) {
