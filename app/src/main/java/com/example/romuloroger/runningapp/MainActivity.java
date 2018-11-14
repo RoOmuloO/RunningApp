@@ -19,6 +19,7 @@ import com.example.romuloroger.runningapp.fragment.CadastraAtletaUsuarioFragment
 import com.example.romuloroger.runningapp.fragment.CadastraCorridaFragment;
 import com.example.romuloroger.runningapp.fragment.ListaCorridas;
 import com.example.romuloroger.runningapp.fragment.ListaInscricoesFragment;
+import com.example.romuloroger.runningapp.services.response.LoginResponse;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final int REQUEST_LOGIN = 1;
 
+    public LoginResponse login = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +127,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_LOGIN && resultCode == 10){
+            login = (LoginResponse) data.getExtras().getSerializable("user");
+            changeVisibilityMenu(R.id.nav_login,false);
+            changeVisibilityMenu(R.id.nav_sairSistema,true);
+        }
 
     }
 

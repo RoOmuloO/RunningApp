@@ -19,7 +19,8 @@
         <item
             android:id="@+id/nav_sairSistema"
             android:icon="@android:drawable/ic_delete"
-            android:title="Sair do Sistema" />
+            android:title="Sair do Sistema"
+            android:visible="false"/>
     </group>
 
     <item android:title="Communicate">
