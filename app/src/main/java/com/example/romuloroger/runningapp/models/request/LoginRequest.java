@@ -1,4 +1,4 @@
-package com.example.romuloroger.runningapp.services.request;
+package com.example.romuloroger.runningapp.models.request;
 
 public class LoginRequest {
 

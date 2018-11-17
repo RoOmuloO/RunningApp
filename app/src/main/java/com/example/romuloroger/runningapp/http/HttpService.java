@@ -1,36 +1,43 @@
 package com.example.romuloroger.runningapp.http;
 
+import android.content.Context;
+
+import com.example.romuloroger.runningapp.utils.Preferencias;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class HttpService<T extends Object> {
+public class HttpService<T, K> {
 
     private final String apiUrl = "https://api.davesmartins.com.br/api/";
     private final Class<T> type;
     private String resource;
+    private Context context;
 
 
-    public HttpService(String resource, Class<T> type) {
+    public HttpService(String resource, Context context, Class<T> type) {
         this.resource = resource;
         this.type = type;
+        this.context = context;
     }
 
-    public List<T> getAll(String action, Class<T[]> type) {
+    public List<T> getAll(String action, Class<T[]> type) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
         T[] array = restTemplate.getForObject(apiUrl + resource + action, type);
         return Arrays.asList(array);
     }
 
-    public T getById(String action) {
+    public T getById(String action) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
         T response = restTemplate.getForObject(apiUrl + resource + action, type);
@@ -38,29 +45,30 @@ public class HttpService<T extends Object> {
     }
 
 
-    public T post(String action, T body) {
+    public T post(String action, K body) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
-        HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(body);
+        HttpEntity<K> entity = (HttpEntity<K>) this.configurarHttpEntity(body);
         T response = restTemplate.postForObject(apiUrl + resource + action, entity, type);
         return response;
     }
 
-    public T put(String action, T data) {
+    public T put(String action, K data) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
-        HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(data);
+        HttpEntity<K> entity = (HttpEntity<K>) this.configurarHttpEntity(data);
         ResponseEntity<T> response = restTemplate.exchange(apiUrl + resource + action, HttpMethod.PUT, entity, type);
         return response.getBody();
     }
 
-    public void delete(String action) {
+    public void delete(String action) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
         restTemplate.delete(apiUrl + resource + action, entity);
     }
 
-    private HttpEntity<T> configurarHttpEntity(T data) {
+    private HttpEntity<K> configurarHttpEntity(K data) {
         HttpHeaders header = new HttpHeaders();
-        HttpEntity<T> entity = new HttpEntity<>(data, header);
+        header.set("code", Preferencias.getToken(this.context));
+        HttpEntity<K> entity = new HttpEntity<>(data, header);
         return entity;
     }
 

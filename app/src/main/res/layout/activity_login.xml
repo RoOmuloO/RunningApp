@@ -72,6 +72,16 @@
                         android:inputType="textPassword" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/txtLoginSenhaIncorretos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Login ou senha incorretos"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -80,11 +90,12 @@
                         android:id="@+id/imgbtnTelaLoginLogar"
                         android:layout_width="125dp"
                         android:layout_height="160dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
                         android:background="@null"
+                        android:onClick="botaoLogar"
                         android:scaleType="fitCenter"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"

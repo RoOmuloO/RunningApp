@@ -19,7 +19,7 @@ import com.example.romuloroger.runningapp.fragment.CadastraAtletaUsuarioFragment
 import com.example.romuloroger.runningapp.fragment.CadastraCorridaFragment;
 import com.example.romuloroger.runningapp.fragment.ListaCorridas;
 import com.example.romuloroger.runningapp.fragment.ListaInscricoesFragment;
-import com.example.romuloroger.runningapp.services.response.LoginResponse;
+import com.example.romuloroger.runningapp.models.response.LoginResponse;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -48,7 +50,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
 
     }
@@ -80,10 +81,10 @@ public class MainActivity extends AppCompatActivity
         Fragment fInject = null;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_minhas_inscricoes) {
-            fInject = ListaInscricoesFragment.newInstance("","");
+            fInject = ListaInscricoesFragment.newInstance("", "");
         }
 
-        if (fInject != null){
+        if (fInject != null) {
             showFragment(fInject);
         }
 
@@ -98,24 +99,29 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fInject = null;
 
-
-        if (id == R.id.nav_login) {
-            Intent itn = new Intent(getApplicationContext(),LoginActivity.class);
-
-            startActivityForResult(itn, REQUEST_LOGIN);
-        } else if (id == R.id.nav_listaCorridas) {
-        fInject = ListaCorridas.newInstance("123","456");
-        } else if (id == R.id.nav_sobre) {
-
-        } else if (id == R.id.nav_sairSistema) {
-
-        } else if (id == R.id.nav_cadastrarAtleta) {
-        fInject = CadastraAtletaUsuarioFragment.newInstance("Criando Atleta", "Criando Usuario");
-        } else if (id == R.id.nav_cadastrarCorrida) {
-        fInject = CadastraCorridaFragment.newInstance("","");
+        switch (id) {
+            case R.id.nav_login:
+                Intent itn = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivityForResult(itn, REQUEST_LOGIN);
+                break;
+            case R.id.nav_listaCorridas:
+                fInject = ListaCorridas.newInstance("123", "456");
+                break;
+            case R.id.nav_sobre:
+                break;
+            case R.id.nav_sairSistema:
+                break;
+            case R.id.nav_cadastrarAtleta:
+                fInject = CadastraAtletaUsuarioFragment.newInstance("Criando Atleta", "Criando Usuario");
+                break;
+            case R.id.nav_cadastrarCorrida:
+                fInject = CadastraCorridaFragment.newInstance("", "");
+                break;
+            default:
+                break;
         }
 
-        if (fInject != null){
+        if (fInject != null) {
             showFragment(fInject);
         }
 
@@ -127,10 +133,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LOGIN && resultCode == 10){
+        if (requestCode == REQUEST_LOGIN && resultCode == 10) {
             login = (LoginResponse) data.getExtras().getSerializable("user");
-            changeVisibilityMenu(R.id.nav_login,false);
-            changeVisibilityMenu(R.id.nav_sairSistema,true);
+            changeVisibilityMenu(R.id.nav_login, false);
+            changeVisibilityMenu(R.id.nav_sairSistema, true);
         }
 
     }
@@ -150,4 +156,5 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
 }

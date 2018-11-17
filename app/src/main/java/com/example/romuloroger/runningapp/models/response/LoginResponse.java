@@ -1,4 +1,4 @@
-package com.example.romuloroger.runningapp.services.response;
+package com.example.romuloroger.runningapp.models.response;
 
 import java.io.Serializable;
 
