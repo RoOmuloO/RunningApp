@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.romuloroger.runningapp.R;
+import com.example.romuloroger.runningapp.adapter.CorridasAdapter;
+import com.example.romuloroger.runningapp.models.Corrida;
+import com.example.romuloroger.runningapp.services.corrida.CorridaService;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,20 +73,32 @@ public class ListaCorridas extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        binding();
     }
 
-    private void binding() {
-        recViewListaCorridas = getActivity().findViewById(R.id.listaCorridas);
-        edtPesquisa = getActivity().findViewById(R.id.edtTelaListaCorridasPesquisa);
-        btnFiltrar = getActivity().findViewById(R.id.btnTelaListaCorridasFiltrar);
+    private void listarCorridas() {
+        List<Corrida> corridas = CorridaService.getInstance(getContext()).buscarTodas();
+        CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
+        this.recViewListaCorridas.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        this.recViewListaCorridas.setLayoutManager(layoutManager);
+        this.recViewListaCorridas.setAdapter(corridasAdapter);
+    }
+
+    private void binding(View view) {
+        recViewListaCorridas = view.findViewById(R.id.listaCorridas);
+        edtPesquisa = view.findViewById(R.id.edtTelaListaCorridasPesquisa);
+        btnFiltrar = view.findViewById(R.id.btnTelaListaCorridasFiltrar);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_corridas, container, false);
+        View view = inflater.inflate(R.layout.fragment_lista_corridas, container, false);
+        this.binding(view);
+        this.listarCorridas();
+        return view;
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

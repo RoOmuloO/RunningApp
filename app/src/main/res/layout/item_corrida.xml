@@ -3,96 +3,118 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="148dp">
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-        <ImageView
-            android:id="@+id/imgTipoCorrida"
-            android:layout_width="91dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/txtItemInscricaoNomeCorrida"
-            android:layout_width="0dp"
-            android:layout_height="36dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Corrida do Outubro Rosa"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtItemInscricaoDataCorrida"
-            android:layout_width="127dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="20/04/1995"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoNomeCorrida"
-            app:layout_constraintVertical_bias="0.026" />
+                <ImageView
+                    android:id="@+id/imgTipoCorrida"
+                    android:layout_width="150dp"
+                    android:layout_height="100dp"
+                    app:srcCompat="@drawable/corrida" />
 
-        <TextView
-            android:id="@+id/txtItemInscricaoValorInscricao"
-            android:layout_width="127dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="end"
-            android:text="R$ 150,00"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoNomeCorrida"
-            app:layout_constraintVertical_bias="0.026" />
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/txtItemCorridaTipoCorrida"
-            android:layout_width="127dp"
-            android:layout_height="25dp"
-            android:layout_marginTop="12dp"
-            android:text="Maratona"
-            android:textAlignment="textEnd"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/txtItemInscricaoValorInscricao"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoValorInscricao" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtItemCorridaHorario"
-            android:layout_width="127dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="09:00 Hs"
-            android:textSize="18sp"
-            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
-            app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoDataCorrida" />
+                <TextView
+                    android:id="@+id/txtItemInscricaoNomeCorrida"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Corrida Outubro Rosa"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/txtItemCorridaLocalCorrida"
-            android:layout_width="0dp"
-            android:layout_height="27dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="Local: Centro - Juiz de Fora"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imgTipoCorrida"
-            tools:layout_editor_absoluteY="115dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
-    </android.support.constraint.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/txtItemInscricaoDataCorrida"
+                        android:layout_width="56dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="20/04/1995"
+                        android:textAlignment="viewEnd"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtItemInscricaoValorInscricao"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="R$ 150,00"
+                        android:textAlignment="viewEnd"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txtItemCorridaHorario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="09:00 Hs"
+                        android:textAlignment="viewEnd"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtItemCorridaTipoCorrida"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Maratona"
+                        android:textAlignment="viewEnd"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtItemCorridaLocalCorrida"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Local:Centro-Juiz de Fora"
+                    android:textAlignment="center"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

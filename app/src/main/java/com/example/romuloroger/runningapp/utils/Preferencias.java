@@ -12,6 +12,7 @@ public class Preferencias {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("token", response.getToken());
         editor.putString("nome", response.getNome());
+        editor.commit();
     }
 
     public static String getToken(Context context) {
