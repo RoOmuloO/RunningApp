@@ -72,21 +72,11 @@ public class ListaCorridas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-    }
-
-    private void listarCorridas() {
-        List<Corrida> corridas = CorridaService.getInstance(getContext()).buscarTodas();
-        CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
-        this.recViewListaCorridas.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        this.recViewListaCorridas.setLayoutManager(layoutManager);
-        this.recViewListaCorridas.setAdapter(corridasAdapter);
+        CorridaService.getInstance(getContext()).buscarTodas();
     }
 
     private void binding(View view) {
-        recViewListaCorridas = view.findViewById(R.id.listaCorridas);
+        //recViewListaCorridas = view.findViewById(R.id.listaCorridas);
         edtPesquisa = view.findViewById(R.id.edtTelaListaCorridasPesquisa);
         btnFiltrar = view.findViewById(R.id.btnTelaListaCorridasFiltrar);
     }
@@ -96,7 +86,6 @@ public class ListaCorridas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_corridas, container, false);
         this.binding(view);
-        this.listarCorridas();
         return view;
 
     }

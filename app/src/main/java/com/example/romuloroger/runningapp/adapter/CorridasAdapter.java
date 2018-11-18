@@ -33,9 +33,13 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
     @Override
     public void onBindViewHolder(@NonNull CorridaViewHolder corridaViewHolder, int i) {
         Corrida corrida = this.corridas.get(i);
+        String data = corrida.getDataCorrida().split(" ")[0];
+        String hora = corrida.getDataCorrida().split(" ")[1];
         corridaViewHolder.nome.setText(corrida.getNome());
         corridaViewHolder.valor.setText("R$ " + corrida.getValorInscricao());
-        corridaViewHolder.data.setText(corrida.getDataCorrida().toString());
+        corridaViewHolder.data.setText(data);
+        corridaViewHolder.horario.setText(hora+" Hs");
+        corridaViewHolder.total.setText(corrida.getNumroInscritos()+" inscritos");
     }
 
     @Override
@@ -45,13 +49,15 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
 
     protected static class CorridaViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView nome, data, valor, horario, tipo, local;
+        protected TextView nome, data, valor, horario, total, local;
 
         public CorridaViewHolder(View view) {
             super(view);
             this.nome = view.findViewById(R.id.txtItemInscricaoNomeCorrida);
             this.data = view.findViewById(R.id.txtItemInscricaoDataCorrida);
             this.valor = view.findViewById(R.id.txtItemInscricaoValorInscricao);
+            this.horario = view.findViewById(R.id.txtItemCorridaHorario);
+            this.total = view.findViewById(R.id.txtItemCorridaInscricoes);
         }
     }
 }

@@ -19,15 +19,8 @@ public class CorridaService {
     }
 
 
-    public List<Corrida> buscarTodas() {
-        try {
-            List<Corrida> corridas = new BuscarTodasCorridasTask(this.context).execute().get();
-            return corridas;
-        } catch (InterruptedException e) {
-            return new ArrayList<>();
-        } catch (ExecutionException e) {
-            return new ArrayList<>();
-        }
+    public void buscarTodas() {
+        new BuscarTodasCorridasTask(this.context).execute();
     }
 
 
