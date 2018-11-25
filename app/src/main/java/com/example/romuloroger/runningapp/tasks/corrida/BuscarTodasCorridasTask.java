@@ -53,6 +53,8 @@ public class BuscarTodasCorridasTask extends AsyncTask<Void, Void, List<Corrida>
             return corridas;
         } catch (HttpClientErrorException e) {
             this.httpClientErrorException = e;
+        }catch (Exception ex){
+
         }
 
         return new ArrayList<>();
