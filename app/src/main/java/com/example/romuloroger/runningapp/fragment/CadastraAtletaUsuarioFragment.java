@@ -178,9 +178,14 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
 
         @Override
         protected Corredor doInBackground(Corredor... corredors) {
-            HttpService<Corredor, Corredor> httpService = new HttpService<>("corredor", getContext(), Corredor.class);
-            Corredor corredor = httpService.post("", corredors[0]);
-            return corredor;
+            try{
+                HttpService<Corredor, Corredor> httpService = new HttpService<>("corredor", getContext(), Corredor.class);
+                Corredor corredor = httpService.post("", corredors[0]);
+                return corredor;
+            }catch (Exception ex){
+                return null;
+            }
+
         }
 
         @Override

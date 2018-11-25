@@ -33,15 +33,15 @@ public class HttpService<T, K> {
     public List<T> getAll(String action, Class<T[]> type) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
-        ResponseEntity<T[]> response = restTemplate.exchange(apiUrl + resource + action,HttpMethod.GET,entity,type);
+        ResponseEntity<T[]> response = restTemplate.exchange(apiUrl + resource + action, HttpMethod.GET, entity, type);
         return Arrays.asList(response.getBody());
     }
 
     public T getById(String action) throws HttpClientErrorException {
         RestTemplate restTemplate = this.getRestTemplate();
         HttpEntity<T> entity = (HttpEntity<T>) this.configurarHttpEntity(null);
-        T response = restTemplate.getForObject(apiUrl + resource + action, type);
-        return response;
+        ResponseEntity<T> response = restTemplate.exchange(apiUrl + resource + action, HttpMethod.GET, entity, type);
+        return response.getBody();
     }
 
 

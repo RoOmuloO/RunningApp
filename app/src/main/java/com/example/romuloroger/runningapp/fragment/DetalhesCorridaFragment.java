@@ -1,14 +1,20 @@
 package com.example.romuloroger.runningapp.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.romuloroger.runningapp.LoginActivity;
 import com.example.romuloroger.runningapp.R;
+import com.example.romuloroger.runningapp.http.HttpService;
+import com.example.romuloroger.runningapp.models.Corrida;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,12 +29,15 @@ public class DetalhesCorridaFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ProgressDialog progressDialog;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private TextView nome,data,hora,valor,inscicoes;
 
     public DetalhesCorridaFragment() {
         // Required empty public constructor
@@ -59,13 +68,17 @@ public class DetalhesCorridaFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        this.progressDialog = new ProgressDialog(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detalhes_corrida, container, false);
+        View view =  inflater.inflate(R.layout.fragment_detalhes_corrida, container, false);
+        int idCorrida = this.getArguments().getInt("corridaId");
+        new TaskBuscarCorrida().execute(idCorrida);
+        this.binding(view);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,18 +105,48 @@ public class DetalhesCorridaFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
+    private void binding(View view){
+        this.nome = view.findViewById(R.id.detalhe_corrida_nome);
+        this.data = view.findViewById(R.id.detalhe_corrida_data);
+        this.hora = view.findViewById(R.id.detalhe_corrida_hora);
+        this.inscicoes = view.findViewById(R.id.detalhe_corrida_inscricoes);
+        this.valor = view.findViewById(R.id.detalhe_corrida_valor);
+    }
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public class TaskBuscarCorrida extends AsyncTask<Integer, Void, Corrida> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setTitle("Aguarde.....");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Corrida doInBackground(Integer... ids) {
+            HttpService<Corrida, Corrida> httpService = new HttpService<>("corridas", getContext(), Corrida.class);
+            Corrida corrida = httpService.getById("/"+ids[0]);
+            return corrida;
+        }
+
+        @Override
+        protected void onPostExecute(Corrida corrida) {
+            super.onPostExecute(corrida);
+            if (corrida != null) {
+                nome.setText(corrida.getNome());
+                data.setText(corrida.getDataCorrida().split(" ")[0]);
+                hora.setText(corrida.getDataCorrida().split(" ")[1]+ " Hs");
+                inscicoes.setText(String.valueOf(corrida.getNumroInscritos()+" inscrito(s)"));
+                valor.setText("R$ "+corrida.getValorInscricao());
+            }
+            progressDialog.dismiss();
+        }
+    }
+
 }

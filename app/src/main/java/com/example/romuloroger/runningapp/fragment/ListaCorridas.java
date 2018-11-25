@@ -1,22 +1,32 @@
 package com.example.romuloroger.runningapp.fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.romuloroger.runningapp.R;
 import com.example.romuloroger.runningapp.adapter.CorridasAdapter;
+import com.example.romuloroger.runningapp.http.HttpService;
 import com.example.romuloroger.runningapp.models.Corrida;
-import com.example.romuloroger.runningapp.services.corrida.CorridaService;
+import com.example.romuloroger.runningapp.utils.GlobalHttpErrorHandler;
 
+import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,9 +47,11 @@ public class ListaCorridas extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    RecyclerView recViewListaCorridas;
-    EditText edtPesquisa;
-    Button btnFiltrar;
+
+    private RecyclerView recViewListaCorridas;
+    private EditText edtPesquisa;
+    private Button btnFiltrar;
+    private ProgressDialog progressDialog;
 
     private OnFragmentInteractionListener mListener;
 
@@ -72,13 +84,13 @@ public class ListaCorridas extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        CorridaService.getInstance(getContext()).buscarTodas();
+
     }
 
     private void binding(View view) {
-        //recViewListaCorridas = view.findViewById(R.id.listaCorridas);
         edtPesquisa = view.findViewById(R.id.edtTelaListaCorridasPesquisa);
         btnFiltrar = view.findViewById(R.id.btnTelaListaCorridasFiltrar);
+        recViewListaCorridas = view.findViewById(R.id.listaCorridas);
     }
 
     @Override
@@ -86,6 +98,8 @@ public class ListaCorridas extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_corridas, container, false);
         this.binding(view);
+        this.progressDialog = new ProgressDialog(getContext());
+        new BuscarTodasCorridasTask().execute();
         return view;
 
     }
@@ -114,18 +128,63 @@ public class ListaCorridas extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+
+    public class BuscarTodasCorridasTask extends AsyncTask<Void, Void, List<Corrida>> {
+
+
+        private HttpClientErrorException httpClientErrorException;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setTitle("Aguarde....");
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<Corrida> doInBackground(Void... voids) {
+            HttpService<Corrida, Corrida> httpService = new HttpService<>("corridas/", getContext(), Corrida.class);
+            try {
+                List<Corrida> corridas = httpService.getAll("", Corrida[].class);
+                return corridas;
+            } catch (HttpClientErrorException e) {
+                this.httpClientErrorException = e;
+            } catch (Exception ex) {
+
+            }
+
+            return new ArrayList<>();
+        }
+
+        @Override
+        protected void onPostExecute(List<Corrida> corridas) {
+            super.onPostExecute(corridas);
+            if (this.httpClientErrorException != null) {
+                GlobalHttpErrorHandler.getInstance(getContext()).handle(this.httpClientErrorException);
+            } else {
+                this.listarCorridas(corridas);
+            }
+
+            progressDialog.dismiss();
+        }
+
+        private void listarCorridas(List<Corrida> corridas) {
+            CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
+            if (recViewListaCorridas != null) {
+                recViewListaCorridas.setHasFixedSize(true);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                recViewListaCorridas.setLayoutManager(layoutManager);
+                recViewListaCorridas.setAdapter(corridasAdapter);
+            }
+        }
+
+    }
+
 }

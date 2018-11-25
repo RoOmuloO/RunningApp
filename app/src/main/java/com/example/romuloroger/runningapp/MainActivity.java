@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.romuloroger.runningapp.fragment.CadastraAtletaUsuarioFragment;
 import com.example.romuloroger.runningapp.fragment.CadastraCorridaFragment;
+import com.example.romuloroger.runningapp.fragment.DetalhesCorridaFragment;
 import com.example.romuloroger.runningapp.fragment.ListaCorridas;
 import com.example.romuloroger.runningapp.fragment.ListaInscricoesFragment;
 import com.example.romuloroger.runningapp.models.response.LoginResponse;
@@ -26,7 +27,8 @@ public class MainActivity extends AppCompatActivity
         ListaCorridas.OnFragmentInteractionListener,
         CadastraAtletaUsuarioFragment.OnFragmentInteractionListener,
         CadastraCorridaFragment.OnFragmentInteractionListener,
-        ListaInscricoesFragment.OnFragmentInteractionListener {
+        ListaInscricoesFragment.OnFragmentInteractionListener,
+        DetalhesCorridaFragment.OnFragmentInteractionListener{
 
     public static final int REQUEST_LOGIN = 1;
 
