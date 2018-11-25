@@ -1,30 +1,33 @@
 package com.example.romuloroger.runningapp.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
+import com.example.romuloroger.runningapp.LoginActivity;
 import com.example.romuloroger.runningapp.R;
+import com.example.romuloroger.runningapp.http.HttpService;
+import com.example.romuloroger.runningapp.models.Corredor;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CadastraAtletaUsuarioFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CadastraAtletaUsuarioFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class CadastraAtletaUsuarioFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private ProgressDialog progressDialog;
+    private EditText nome, email, login, senha, confirmSenha;
+    private ImageButton btnSalvarAtleta;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -34,15 +37,6 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CadastraAtletaUsuarioFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CadastraAtletaUsuarioFragment newInstance(String param1, String param2) {
         CadastraAtletaUsuarioFragment fragment = new CadastraAtletaUsuarioFragment();
         Bundle args = new Bundle();
@@ -59,16 +53,23 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        this.progressDialog = new ProgressDialog(getContext());
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cadastra_atleta_usuario, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_cadastra_atleta_usuario, container, false);
+        this.binding(view);
+        this.btnSalvarAtleta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                salvarAtleta();
+            }
+        });
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -92,18 +93,107 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void salvarAtleta() {
+        Corredor corredor = new Corredor(
+                extrairEditText(this.nome),
+                extrairEditText(this.login),
+                extrairEditText(this.senha),
+                extrairEditText(this.email)
+        );
+        if(validarCamposObrigatorios() && compararSenhas()){
+            new TaskSalvar().execute(corredor);
+        }
+
+    }
+
+    private void binding(View view) {
+        this.nome = view.findViewById(R.id.editNomeAtleta);
+        this.email = view.findViewById(R.id.editEmailAtleta);
+        this.login = view.findViewById(R.id.editLoginAtleta);
+        this.senha = view.findViewById(R.id.editSenhaAtleta);
+        this.confirmSenha = view.findViewById(R.id.editConfirmSenhaAtleta);
+        this.btnSalvarAtleta = view.findViewById(R.id.btnSalvarAtleta);
+    }
+
+    private String extrairEditText(EditText editText) {
+        return editText.getText().toString().trim();
+    }
+
+    private boolean validarCamposObrigatorios(){
+        boolean valido = true;
+        if(extrairEditText(this.nome).isEmpty()){
+            valido = false;
+            this.nome.setError("O campo nome é obrigatório!");
+        }
+        if(extrairEditText(this.email).isEmpty()){
+            valido = false;
+            this.email.setError("O campo email é obrigatório!");
+        }
+        if(extrairEditText(this.login).isEmpty()){
+            valido = false;
+            this.login.setError("O campo login é obrigatório!");
+        }
+        if(extrairEditText(this.senha).isEmpty()){
+            valido = false;
+            this.senha.setError("O campo senha é obrigatório!");
+        }
+        if(extrairEditText(this.confirmSenha).isEmpty()){
+            valido = false;
+            this.confirmSenha.setError("O campo confirmar senha é obrigatório!");
+        }
+        return valido;
+    }
+
+    private boolean compararSenhas(){
+        boolean valido = true;
+        if(!extrairEditText(this.senha).equals(extrairEditText(this.confirmSenha))){
+            this.confirmSenha.setError("As senhas não correspondem!");
+            valido = false;
+        }
+        return valido;
+    }
+
+    private void limparCampos(){
+        this.nome.setText("");
+        this.email.setText("");
+        this.login.setText("");
+        this.senha.setText("");
+        this.confirmSenha.setText("");
+    }
+
+    public class TaskSalvar extends AsyncTask<Corredor, Void, Corredor> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setTitle("Aguarde.....");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Corredor doInBackground(Corredor... corredors) {
+            HttpService<Corredor, Corredor> httpService = new HttpService<>("corredor", getContext(), Corredor.class);
+            Corredor corredor = httpService.post("", corredors[0]);
+            return corredor;
+        }
+
+        @Override
+        protected void onPostExecute(Corredor corredor) {
+            super.onPostExecute(corredor);
+            if (corredor != null) {
+                Toast.makeText(getContext(), "Atleta salvo com sucesso!", Toast.LENGTH_LONG).show();
+                limparCampos();
+                Intent intent = new Intent(getContext(), LoginActivity.class);
+                startActivity(intent);
+            }
+            progressDialog.dismiss();
+        }
+    }
+
 }

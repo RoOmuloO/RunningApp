@@ -7,6 +7,16 @@ public class Corredor {
     private String senha;
     private String email;
 
+    public Corredor() {
+    }
+
+    public Corredor(String nome, String login, String senha, String email) {
+        this.nome = nome;
+        this.login = login;
+        this.senha = senha;
+        this.email = email;
+    }
+
     public int getId() {
         return id;
     }

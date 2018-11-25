@@ -40,7 +40,7 @@
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/editNomeAtleta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -55,108 +55,20 @@
 
                 <TextView
                     android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
+                    android:layout_width="167dp"
                     android:layout_height="wrap_content"
-                    android:text="Data de Nascimento:"
+                    android:text="Email:"
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/editText2"
+                    android:id="@+id/editEmailAtleta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="date" />
+                    android:inputType="text" />
 
             </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="168dp"
-                    android:layout_height="wrap_content"
-                    android:text="Endereço:"
-                    android:textSize="18sp" />
-
-                <EditText
-                    android:id="@+id/editText3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textPersonName" />
-            </LinearLayout>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rdBtnTelaCadastroAtletaUsuarioMasculino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Masculino" />
-
-                <RadioButton
-                    android:id="@+id/rdBtnTelaCadastroAtletaUsuarioFeminino"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Feminino" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:text="Nacionalidade:"
-                    android:textSize="18sp" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/autoCompleteTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="170dp"
-                    android:layout_height="wrap_content"
-                    android:text="Tipo Sanguíneo:" />
-
-                <Spinner
-                    android:id="@+id/spinTelaCadastroAtletaUsuarioTipoSanguineo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:entries="@array/lista_tipo_sanguineo"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@color/design_default_color_primary"
-                android:text="Dados do Usuário"
-                android:textAlignment="center"
-                android:textColor="@color/common_google_signin_btn_text_dark_default"
-                android:textSize="24sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,13 +77,13 @@
 
                 <TextView
                     android:id="@+id/textView10"
-                    android:layout_width="172dp"
+                    android:layout_width="167dp"
                     android:layout_height="wrap_content"
-                    android:text="Usuário: "
+                    android:text="Login: "
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/editLoginAtleta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -186,13 +98,13 @@
 
                 <TextView
                     android:id="@+id/textView11"
-                    android:layout_width="172dp"
+                    android:layout_width="167dp"
                     android:layout_height="wrap_content"
                     android:text="Senha:"
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/editText5"
+                    android:id="@+id/editSenhaAtleta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -207,14 +119,14 @@
 
                 <TextView
                     android:id="@+id/textView12"
-                    android:layout_width="148dp"
+                    android:layout_width="167dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Confirmar Senha:"
                     android:textSize="18sp" />
 
                 <EditText
-                    android:id="@+id/editText6"
+                    android:id="@+id/editConfirmSenhaAtleta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -227,13 +139,13 @@
                 android:layout_height="match_parent">
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/btnSalvarAtleta"
                     android:layout_width="85dp"
                     android:layout_height="74dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
                     android:background="@null"
                     android:scaleType="fitCenter"
                     android:src="@android:drawable/ic_menu_send"
