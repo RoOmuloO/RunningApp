@@ -149,7 +149,7 @@ public class ListaCorridas extends Fragment {
 
         @Override
         protected List<Corrida> doInBackground(Void... voids) {
-            HttpService<Corrida, Corrida> httpService = new HttpService<>("corridas/", getContext(), Corrida.class);
+            HttpService<Corrida, Corrida> httpService = new HttpService<>("corridas/abertas", getContext(), Corrida.class);
             try {
                 List<Corrida> corridas = httpService.getAll("", Corrida[].class);
                 return corridas;
