@@ -17,11 +17,10 @@
             android:layout_height="63dp"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edtTelaListaCorridasPesquisa"
-                android:layout_width="276dp"
-                android:layout_height="match_parent"
-                android:inputType="textPersonName" />
+            <SearchView
+                android:id="@+id/svListaCorridas"
+                android:layout_width="273dp"
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnTelaListaCorridasFiltrar"

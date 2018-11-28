@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.romuloroger.runningapp.R;
@@ -49,7 +50,7 @@ public class ListaCorridas extends Fragment {
 
 
     private RecyclerView recViewListaCorridas;
-    private EditText edtPesquisa;
+    private SearchView svPesquisa;
     private Button btnFiltrar;
     private ProgressDialog progressDialog;
 
@@ -88,7 +89,7 @@ public class ListaCorridas extends Fragment {
     }
 
     private void binding(View view) {
-        edtPesquisa = view.findViewById(R.id.edtTelaListaCorridasPesquisa);
+        svPesquisa = view.findViewById(R.id.svListaCorridas);
         btnFiltrar = view.findViewById(R.id.btnTelaListaCorridasFiltrar);
         recViewListaCorridas = view.findViewById(R.id.listaCorridas);
     }
