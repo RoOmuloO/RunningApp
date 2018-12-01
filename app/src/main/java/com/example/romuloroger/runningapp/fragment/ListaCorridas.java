@@ -45,7 +45,7 @@ public class ListaCorridas extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String token;
     private String mParam2;
 
 
@@ -82,7 +82,7 @@ public class ListaCorridas extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            token = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
@@ -176,14 +176,27 @@ public class ListaCorridas extends Fragment {
         }
 
         private void listarCorridas(List<Corrida> corridas) {
-            CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
-            if (recViewListaCorridas != null) {
-                recViewListaCorridas.setHasFixedSize(true);
-                LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                recViewListaCorridas.setLayoutManager(layoutManager);
-                recViewListaCorridas.setAdapter(corridasAdapter);
+            if (token != null) {
+                CorridasAdapter corridasAdapter = new CorridasAdapter(corridas,token);
+                if (recViewListaCorridas != null) {
+                    recViewListaCorridas.setHasFixedSize(true);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recViewListaCorridas.setLayoutManager(layoutManager);
+                    recViewListaCorridas.setAdapter(corridasAdapter);
+                }
+            }else{
+                CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
+                if (recViewListaCorridas != null) {
+                    recViewListaCorridas.setHasFixedSize(true);
+                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+                    recViewListaCorridas.setLayoutManager(layoutManager);
+                    recViewListaCorridas.setAdapter(corridasAdapter);
+                }
             }
+
+
         }
 
     }

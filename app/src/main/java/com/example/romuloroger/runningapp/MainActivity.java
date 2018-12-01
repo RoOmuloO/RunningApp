@@ -107,7 +107,11 @@ public class MainActivity extends AppCompatActivity
                 startActivityForResult(itn, REQUEST_LOGIN);
                 break;
             case R.id.nav_listaCorridas:
-                fInject = ListaCorridas.newInstance("123", "456");
+
+                if(login != null){
+                    fInject = ListaCorridas.newInstance(login.getToken(), "456");
+                }else
+                    fInject = ListaCorridas.newInstance(null, "456");
                 break;
             case R.id.nav_sobre:
                 break;

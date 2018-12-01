@@ -26,7 +26,12 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
 
     private List<Corrida> corridas;
     private Context context;
+    private String token;
 
+    public CorridasAdapter(List<Corrida> corridas, String token) {
+        this.corridas = corridas;
+        this.token = token;
+    }
     public CorridasAdapter(List<Corrida> corridas) {
         this.corridas = corridas;
     }
@@ -49,17 +54,23 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
         corridaViewHolder.data.setText(data);
         corridaViewHolder.horario.setText(hora + " Hs");
         corridaViewHolder.total.setText(corrida.getNumroInscritos() + " inscritos");
-        corridaViewHolder.detalhes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                Fragment myFragment = new DetalhesCorridaFragment();
-                Bundle bundle = new Bundle();
-                bundle.putInt("corridaId",corrida.getId());
-                myFragment.setArguments(bundle);
-                activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, myFragment).addToBackStack(null).commit();
-            }
-        });
+
+        if(token != null){
+            corridaViewHolder.detalhes.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    Fragment myFragment = new DetalhesCorridaFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("corridaId",corrida.getId());
+                    myFragment.setArguments(bundle);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, myFragment).addToBackStack(null).commit();
+                }
+            });
+        }else {
+            corridaViewHolder.detalhes.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -79,6 +90,7 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
             this.horario = view.findViewById(R.id.txtItemCorridaHorario);
             this.total = view.findViewById(R.id.txtItemCorridaInscricoes);
             this.detalhes = view.findViewById(R.id.detalhes);
+
         }
     }
 }

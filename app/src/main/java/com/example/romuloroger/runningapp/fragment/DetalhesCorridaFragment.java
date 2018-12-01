@@ -81,6 +81,8 @@ public class DetalhesCorridaFragment extends Fragment {
         this.idCorrida = this.getArguments().getInt("corridaId");
         new TaskBuscarCorrida().execute(this.idCorrida);
         this.binding(view);
+
+
         this.inscreverCorrida();
         return view;
     }
