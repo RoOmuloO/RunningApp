@@ -41,6 +41,7 @@ public class DetalhesCorridaFragment extends Fragment {
     private int idCorrida;
     private TextView nome, data, hora, valor, inscicoes;
     private Button btnInscrever;
+    private Button btnCancelar;
 
     public DetalhesCorridaFragment() {
         // Required empty public constructor
@@ -81,9 +82,8 @@ public class DetalhesCorridaFragment extends Fragment {
         this.idCorrida = this.getArguments().getInt("corridaId");
         new TaskBuscarCorrida().execute(this.idCorrida);
         this.binding(view);
-
-
         this.inscreverCorrida();
+        this.cancelarCorrida();
         return view;
     }
 
@@ -128,6 +128,14 @@ public class DetalhesCorridaFragment extends Fragment {
             }
         });
     }
+    private void cancelarCorrida(){
+        this.btnCancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new TaskCancelarCorrida().execute(idCorrida);
+            }
+        });
+    }
 
     private void binding(View view) {
         this.nome = view.findViewById(R.id.detalhe_corrida_nome);
@@ -136,6 +144,7 @@ public class DetalhesCorridaFragment extends Fragment {
         this.inscicoes = view.findViewById(R.id.detalhe_corrida_inscricoes);
         this.valor = view.findViewById(R.id.detalhe_corrida_valor);
         this.btnInscrever = view.findViewById(R.id.btnInscricao);
+        this.btnCancelar = view.findViewById(R.id.btnCancelar);
     }
 
     private void showLoading() {
@@ -204,4 +213,30 @@ public class DetalhesCorridaFragment extends Fragment {
 
     }
 
+    private class TaskCancelarCorrida extends AsyncTask<Integer, Void, String>{
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showLoading();
+        }
+
+        @Override
+        protected String doInBackground(Integer... id) {
+            try {
+                HttpService<String, String> httpService = new HttpService<String, String>("corredor/corrida/", getContext(), String.class);
+                httpService.put(idCorrida + "/cancelar","");
+                return "Inscrição cancelada com sucesso.";
+            }catch (Exception ex){
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String mensagem) {
+            super.onPostExecute(mensagem);
+            hideLoading();
+            Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
