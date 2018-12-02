@@ -53,6 +53,7 @@ public class ListaCorridas extends Fragment {
     private SearchView svPesquisa;
     private Button btnFiltrar;
     private ProgressDialog progressDialog;
+    private List<Corrida> corridasFiltro = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -94,6 +95,7 @@ public class ListaCorridas extends Fragment {
         recViewListaCorridas = view.findViewById(R.id.listaCorridas);
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -101,6 +103,7 @@ public class ListaCorridas extends Fragment {
         this.binding(view);
         this.progressDialog = new ProgressDialog(getContext());
         new BuscarTodasCorridasTask().execute();
+        this.filtrarCorridas();
         return view;
 
     }
@@ -135,6 +138,52 @@ public class ListaCorridas extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    private void filtrarCorridas() {
+        this.btnFiltrar.setOnClickListener(new View.OnClickListener() {
+            List<Corrida> filtro = new ArrayList<>();
+            @Override
+            public void onClick(View view) {
+                filtro = new ArrayList<>();
+                String txtFiltro = svPesquisa.getQuery().toString().trim().toLowerCase();
+                for (Corrida corrida : corridasFiltro) {
+                    if (corrida.getNome().trim().toLowerCase().contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                    if (corrida.getDataCorrida().contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                    String valor = String.valueOf(corrida.getValorInscricao());
+                    String valorComSifrao = "R$ " + valor;
+                    if (valor.contains(txtFiltro) || valorComSifrao.contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                    String totalInscritos = String.valueOf(corrida.getNumroInscritos());
+                    String totalInscritosExtenso = totalInscritos+" inscritos";
+                    if(totalInscritos.contains(txtFiltro) || totalInscritosExtenso.contains(txtFiltro)){
+                        addCorrida(corrida);
+                    }
+                }
+                CorridasAdapter corridasAdapter = new CorridasAdapter(filtro);
+                configurarRecView(corridasAdapter);
+            }
+
+            private void addCorrida(Corrida corrida){
+                if(!filtro.contains(corrida)){
+                    filtro.add(corrida);
+                }
+            }
+        });
+    }
+
+    private void configurarRecView(CorridasAdapter corridasAdapter) {
+        if (recViewListaCorridas != null) {
+            recViewListaCorridas.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recViewListaCorridas.setLayoutManager(layoutManager);
+            recViewListaCorridas.setAdapter(corridasAdapter);
+        }
+    }
 
     public class BuscarTodasCorridasTask extends AsyncTask<Void, Void, List<Corrida>> {
 
@@ -176,24 +225,13 @@ public class ListaCorridas extends Fragment {
         }
 
         private void listarCorridas(List<Corrida> corridas) {
+            corridasFiltro = corridas;
             if (token != null) {
-                CorridasAdapter corridasAdapter = new CorridasAdapter(corridas,token);
-                if (recViewListaCorridas != null) {
-                    recViewListaCorridas.setHasFixedSize(true);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recViewListaCorridas.setLayoutManager(layoutManager);
-                    recViewListaCorridas.setAdapter(corridasAdapter);
-                }
-            }else{
+                CorridasAdapter corridasAdapter = new CorridasAdapter(corridas, token);
+                configurarRecView(corridasAdapter);
+            } else {
                 CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
-                if (recViewListaCorridas != null) {
-                    recViewListaCorridas.setHasFixedSize(true);
-                    LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-                    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-                    recViewListaCorridas.setLayoutManager(layoutManager);
-                    recViewListaCorridas.setAdapter(corridasAdapter);
-                }
+                configurarRecView(corridasAdapter);
             }
 
 
