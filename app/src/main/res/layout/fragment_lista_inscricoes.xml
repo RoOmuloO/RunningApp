@@ -17,13 +17,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edtTelaListaInscricoesPesquisa"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+            <SearchView
+                android:id="@+id/buscaInscricoes"
+                android:layout_width="232dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/btnTelaListaInscricoesPesquisar"
@@ -35,6 +33,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/listaInscricoes"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

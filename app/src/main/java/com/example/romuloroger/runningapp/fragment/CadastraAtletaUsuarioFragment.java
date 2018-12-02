@@ -19,6 +19,7 @@ import com.example.romuloroger.runningapp.LoginActivity;
 import com.example.romuloroger.runningapp.R;
 import com.example.romuloroger.runningapp.http.HttpService;
 import com.example.romuloroger.runningapp.models.Corredor;
+import com.example.romuloroger.runningapp.models.CorredorCadastro;
 
 public class CadastraAtletaUsuarioFragment extends Fragment {
 
@@ -100,7 +101,7 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
     }
 
     public void salvarAtleta() {
-        Corredor corredor = new Corredor(
+        CorredorCadastro corredor = new CorredorCadastro(
                 extrairEditText(this.nome),
                 extrairEditText(this.login),
                 extrairEditText(this.senha),
@@ -167,7 +168,7 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
         this.confirmSenha.setText("");
     }
 
-    public class TaskSalvar extends AsyncTask<Corredor, Void, Corredor> {
+    public class TaskSalvar extends AsyncTask<CorredorCadastro, Void, CorredorCadastro> {
 
         @Override
         protected void onPreExecute() {
@@ -177,10 +178,10 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
         }
 
         @Override
-        protected Corredor doInBackground(Corredor... corredors) {
+        protected CorredorCadastro doInBackground(CorredorCadastro... corredors) {
             try{
-                HttpService<Corredor, Corredor> httpService = new HttpService<>("corredor", getContext(), Corredor.class);
-                Corredor corredor = httpService.post("", corredors[0]);
+                HttpService<CorredorCadastro, CorredorCadastro> httpService = new HttpService<>("corredor", getContext(), CorredorCadastro.class);
+                CorredorCadastro corredor = httpService.post("", corredors[0]);
                 return corredor;
             }catch (Exception ex){
                 return null;
@@ -189,7 +190,7 @@ public class CadastraAtletaUsuarioFragment extends Fragment {
         }
 
         @Override
-        protected void onPostExecute(Corredor corredor) {
+        protected void onPostExecute(CorredorCadastro corredor) {
             super.onPostExecute(corredor);
             if (corredor != null) {
                 Toast.makeText(getContext(), "Atleta salvo com sucesso!", Toast.LENGTH_LONG).show();

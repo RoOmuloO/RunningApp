@@ -21,6 +21,7 @@ import com.example.romuloroger.runningapp.fragment.DetalhesCorridaFragment;
 import com.example.romuloroger.runningapp.fragment.ListaCorridas;
 import com.example.romuloroger.runningapp.fragment.ListaInscricoesFragment;
 import com.example.romuloroger.runningapp.models.response.LoginResponse;
+import com.example.romuloroger.runningapp.utils.Preferencias;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
         DetalhesCorridaFragment.OnFragmentInteractionListener{
 
     public static final int REQUEST_LOGIN = 1;
+    Fragment fInject = null;
 
     public LoginResponse login = null;
 
@@ -52,7 +54,15 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        fInject = ListaCorridas.newInstance("","456");
+        if (fInject != null) {
+            showFragment(fInject);
+        }
 
+        if(!Preferencias.getToken(this).isEmpty()){
+            changeVisibilityMenu(R.id.nav_login, false);
+            changeVisibilityMenu(R.id.nav_sairSistema, true);
+        }
 
     }
 
@@ -99,15 +109,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment fInject = null;
-
         switch (id) {
             case R.id.nav_login:
                 Intent itn = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivityForResult(itn, REQUEST_LOGIN);
                 break;
             case R.id.nav_listaCorridas:
-
                 if(login != null){
                     fInject = ListaCorridas.newInstance(login.getToken(), "456");
                 }else
@@ -116,6 +123,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_sobre:
                 break;
             case R.id.nav_sairSistema:
+                Preferencias.limparDados(this);
+                changeVisibilityMenu(R.id.nav_login, true);
+                changeVisibilityMenu(R.id.nav_sairSistema, false);
+                fInject = ListaCorridas.newInstance(null,"456");
                 break;
             case R.id.nav_cadastrarAtleta:
                 fInject = CadastraAtletaUsuarioFragment.newInstance("Criando Atleta", "Criando Usuario");
@@ -139,10 +150,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LOGIN && resultCode == 10) {
+        if (!Preferencias.getToken(this).isEmpty()) {
             login = (LoginResponse) data.getExtras().getSerializable("user");
             changeVisibilityMenu(R.id.nav_login, false);
             changeVisibilityMenu(R.id.nav_sairSistema, true);
+            fInject = ListaCorridas.newInstance(Preferencias.getToken(this),"456");
+            if (fInject != null) {
+                showFragment(fInject);
+            }
         }
 
     }

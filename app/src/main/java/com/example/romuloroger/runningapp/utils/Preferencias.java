@@ -26,6 +26,11 @@ public class Preferencias {
         return sharedPreferences.getString("token", "");
     }
 
+    public static void limparDados(Context context){
+        SharedPreferences settings = context.getSharedPreferences("shared", Context.MODE_PRIVATE);
+        settings.edit().clear().commit();
+    }
+
 
     public static LoginResponse getUsuarioLogado(Context context){
         SharedPreferences sharedPreferences = context.getSharedPreferences("shared", Context.MODE_PRIVATE);

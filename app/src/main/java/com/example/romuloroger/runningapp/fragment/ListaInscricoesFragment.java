@@ -1,14 +1,31 @@
 package com.example.romuloroger.runningapp.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.SearchView;
 
 import com.example.romuloroger.runningapp.R;
+import com.example.romuloroger.runningapp.adapter.CorridasAdapter;
+import com.example.romuloroger.runningapp.http.HttpService;
+import com.example.romuloroger.runningapp.models.Corredor;
+import com.example.romuloroger.runningapp.models.Corrida;
+import com.example.romuloroger.runningapp.utils.GlobalHttpErrorHandler;
+import com.example.romuloroger.runningapp.utils.Preferencias;
+
+import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -28,20 +45,18 @@ public class ListaInscricoesFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private RecyclerView recViewListaCorridas;
+    private SearchView svPesquisa;
+    private Button btnFiltrar;
+    private ProgressDialog progressDialog;
+    private List<Corrida> corridasFiltro = new ArrayList<>();
+
     private OnFragmentInteractionListener mListener;
 
     public ListaInscricoesFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ListaInscricoesFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ListaInscricoesFragment newInstance(String param1, String param2) {
         ListaInscricoesFragment fragment = new ListaInscricoesFragment();
@@ -59,13 +74,24 @@ public class ListaInscricoesFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+    }
+
+    private void binding(View view) {
+        svPesquisa = view.findViewById(R.id.buscaInscricoes);
+        btnFiltrar = view.findViewById(R.id.btnInscricoes);
+        recViewListaCorridas = view.findViewById(R.id.listaInscricoes);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lista_inscricoes, container, false);
+        View view = inflater.inflate(R.layout.fragment_lista_inscricoes, container, false);
+        this.binding(view);
+        this.progressDialog = new ProgressDialog(getContext());
+        new BuscarInscricoesTask().execute();
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,18 +118,73 @@ public class ListaInscricoesFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private void configurarRecView(CorridasAdapter corridasAdapter) {
+        if (recViewListaCorridas != null) {
+            recViewListaCorridas.setHasFixedSize(true);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recViewListaCorridas.setLayoutManager(layoutManager);
+            recViewListaCorridas.setAdapter(corridasAdapter);
+        }
+    }
+
+    public class BuscarInscricoesTask extends AsyncTask<Void, Void, Corredor> {
+
+
+        private HttpClientErrorException httpClientErrorException;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setTitle("Aguarde....");
+            progressDialog.show();
+        }
+
+        @Override
+        protected Corredor doInBackground(Void... voids) {
+            HttpService<Corredor, String> httpService = new HttpService<>("corredor", getContext(), Corredor.class);
+            try {
+                Corredor corredor = httpService.getById("");
+                return corredor;
+            } catch (HttpClientErrorException e) {
+                this.httpClientErrorException = e;
+                return null;
+            } catch (Exception ex) {
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Corredor corredor) {
+            super.onPostExecute(corredor);
+            if (this.httpClientErrorException != null) {
+                GlobalHttpErrorHandler.getInstance(getContext()).handle(this.httpClientErrorException);
+            } else {
+                if(corredor != null && corredor.getCorridas() != null){
+                    List<Corrida>corridas = new ArrayList<>();
+                    for (Corrida corrida:corredor.getCorridas()){
+                        if(!corrida.isCancelada()){
+                            corridas.add(corrida);
+                        }
+                    }
+                    this.listarCorridas(corridas);
+                }
+            }
+            progressDialog.dismiss();
+        }
+
+        private void listarCorridas(List<Corrida> corridas) {
+            corridasFiltro = corridas;
+            CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
+            configurarRecView(corridasAdapter);
+        }
+
+    }
+
 }

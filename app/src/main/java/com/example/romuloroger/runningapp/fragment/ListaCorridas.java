@@ -92,7 +92,7 @@ public class ListaCorridas extends Fragment {
 
     private void binding(View view) {
         svPesquisa = view.findViewById(R.id.svListaCorridas);
-        btnFiltrar = view.findViewById(R.id.btnTelaListaCorridasFiltrar);
+        btnFiltrar = view.findViewById(R.id.btnInscricoes);
         recViewListaCorridas = view.findViewById(R.id.listaCorridas);
     }
 
@@ -206,7 +206,12 @@ public class ListaCorridas extends Fragment {
 
         @Override
         protected List<Corrida> doInBackground(Void... voids) {
-            HttpService<Corrida, Corrida> httpService = new HttpService<>("corridas/abertas", getContext(), Corrida.class);
+            HttpService<Corrida, Corrida> httpService;
+            if(Preferencias.getToken(getContext()).isEmpty()){
+                httpService = new HttpService<>("corridas", getContext(), Corrida.class);
+            }else{
+                httpService = new HttpService<>("corridas/abertas", getContext(), Corrida.class);
+            }
             try {
                 List<Corrida> corridas = httpService.getAll("", Corrida[].class);
                 return corridas;
@@ -234,14 +239,12 @@ public class ListaCorridas extends Fragment {
         private void listarCorridas(List<Corrida> corridas) {
             corridasFiltro = corridas;
             if (!Preferencias.getToken(getContext()).isEmpty()) {
-                CorridasAdapter corridasAdapter = new CorridasAdapter(corridas, token);
+                CorridasAdapter corridasAdapter = new CorridasAdapter(corridas, Preferencias.getToken(getContext()));
                 configurarRecView(corridasAdapter);
             } else {
                 CorridasAdapter corridasAdapter = new CorridasAdapter(corridas);
                 configurarRecView(corridasAdapter);
             }
-
-
         }
 
     }

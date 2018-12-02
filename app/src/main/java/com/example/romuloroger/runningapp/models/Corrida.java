@@ -11,6 +11,8 @@ public class Corrida {
     private String dataCorrida;
     private boolean finalizada;
     private int numroInscritos;
+    private boolean cancelada;
+    private int posicao;
 
 
     public int getId() {
@@ -67,5 +69,21 @@ public class Corrida {
 
     public void setNumroInscritos(int numroInscritos) {
         this.numroInscritos = numroInscritos;
+    }
+
+    public boolean isCancelada() {
+        return cancelada;
+    }
+
+    public void setCancelada(boolean cancelada) {
+        this.cancelada = cancelada;
+    }
+
+    public int getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
     }
 }
