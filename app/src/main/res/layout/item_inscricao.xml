@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/txtItemInscricaoDataCorrida"
+                android:id="@+id/result_posicao"
                 android:layout_width="127dp"
                 android:layout_height="25dp"
                 android:layout_marginStart="8dp"
@@ -43,7 +43,7 @@
                 app:layout_constraintVertical_bias="0.026" />
 
             <TextView
-                android:id="@+id/txtItemInscricaoValorInscricao"
+                android:id="@+id/result_pontuacao"
                 android:layout_width="127dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="8dp"
@@ -65,8 +65,8 @@
                 android:text="Maratona"
                 android:textAlignment="textEnd"
                 android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="@+id/txtItemInscricaoValorInscricao"
-                app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoValorInscricao" />
+                app:layout_constraintEnd_toEndOf="@+id/result_pontuacao"
+                app:layout_constraintTop_toBottomOf="@+id/result_pontuacao" />
 
             <TextView
                 android:id="@+id/txtItemInscricaoHorario"
@@ -77,7 +77,7 @@
                 android:text="09:00 Hs"
                 android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtItemInscricaoDataCorrida" />
+                app:layout_constraintTop_toBottomOf="@+id/result_posicao" />
 
             <TextView
                 android:id="@+id/txtItemInscricaoLocalCorrida"

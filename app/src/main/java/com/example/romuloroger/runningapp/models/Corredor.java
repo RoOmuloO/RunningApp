@@ -11,6 +11,7 @@ public class Corredor {
     private String email;
     private String pontuacao = "";
     private int classificacaoGeral = 0;
+    private int posicao;
     private List<Corrida>corridas = new ArrayList<>();
 
     public Corredor() {
@@ -77,6 +78,14 @@ public class Corredor {
 
     public void setPontuacao(String pontuacao) {
         this.pontuacao = pontuacao;
+    }
+
+    public int getPosicao() {
+        return posicao;
+    }
+
+    public void setPosicao(int posicao) {
+        this.posicao = posicao;
     }
 
     public List<Corrida> getCorridas() {

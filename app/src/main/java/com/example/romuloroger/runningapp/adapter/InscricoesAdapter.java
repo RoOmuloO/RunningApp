@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.romuloroger.runningapp.R;
@@ -51,8 +50,8 @@ public class InscricoesAdapter extends RecyclerView.Adapter<InscricoesAdapter.In
             super(View);
 
             this.nome = View.findViewById(R.id.txtItemInscricaoNomeCorrida);
-            this.data = View.findViewById(R.id.txtItemInscricaoDataCorrida);
-            this.valor = View.findViewById(R.id.txtItemInscricaoValorInscricao);
+            this.data = View.findViewById(R.id.result_posicao);
+            this.valor = View.findViewById(R.id.result_pontuacao);
             this.horario = View.findViewById(R.id.txtItemInscricaoHorario);
             this.detalhes = View.findViewById(R.id.txtItemInscricaoTipoCorrida);
             this.situacaoInscricao = View.findViewById(R.id.txtItemInscricaoStatusInscricao);

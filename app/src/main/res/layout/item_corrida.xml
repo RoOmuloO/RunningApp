@@ -58,7 +58,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/txtItemInscricaoDataCorrida"
+                        android:id="@+id/result_posicao"
                         android:layout_width="56dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -68,7 +68,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/txtItemInscricaoValorInscricao"
+                        android:id="@+id/result_pontuacao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -112,6 +112,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/resultado"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="resultado"
+                        android:textAlignment="textEnd"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/detalhes"

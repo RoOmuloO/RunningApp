@@ -79,7 +79,7 @@ public class ListaInscricoesFragment extends Fragment {
 
     private void binding(View view) {
         svPesquisa = view.findViewById(R.id.buscaInscricoes);
-        btnFiltrar = view.findViewById(R.id.btnInscricoes);
+        btnFiltrar = view.findViewById(R.id.btnTelaListaInscricoesPesquisar);
         recViewListaCorridas = view.findViewById(R.id.listaInscricoes);
     }
 
@@ -91,6 +91,7 @@ public class ListaInscricoesFragment extends Fragment {
         this.binding(view);
         this.progressDialog = new ProgressDialog(getContext());
         new BuscarInscricoesTask().execute();
+        this.filtrarCorridas();
         return view;
     }
 
@@ -118,6 +119,48 @@ public class ListaInscricoesFragment extends Fragment {
         mListener = null;
     }
 
+    private void filtrarCorridas() {
+        this.btnFiltrar.setOnClickListener(new View.OnClickListener() {
+            List<Corrida> filtro = new ArrayList<>();
+
+            @Override
+            public void onClick(View view) {
+                filtro = new ArrayList<>();
+                String txtFiltro = svPesquisa.getQuery().toString().trim().toLowerCase();
+                for (Corrida corrida : corridasFiltro) {
+                    if (corrida.getNome().trim().toLowerCase().contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                    if (corrida.getDataCorrida().contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                    String valor = String.valueOf(corrida.getValorInscricao());
+                    String valorComSifrao = "R$ " + valor;
+                    if (valor.contains(txtFiltro) || valorComSifrao.contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                    String totalInscritos = String.valueOf(corrida.getNumroInscritos());
+                    String totalInscritosExtenso = totalInscritos + " inscritos";
+                    if (totalInscritos.contains(txtFiltro) || totalInscritosExtenso.contains(txtFiltro)) {
+                        addCorrida(corrida);
+                    }
+                }
+                CorridasAdapter corridasAdapter;
+                if (Preferencias.getToken(getContext()).isEmpty()) {
+                    corridasAdapter = new CorridasAdapter(filtro);
+                } else {
+                    corridasAdapter = new CorridasAdapter(filtro, Preferencias.getToken(getContext()));
+                }
+                configurarRecView(corridasAdapter);
+            }
+
+            private void addCorrida(Corrida corrida) {
+                if (!filtro.contains(corrida)) {
+                    filtro.add(corrida);
+                }
+            }
+        });
+    }
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name

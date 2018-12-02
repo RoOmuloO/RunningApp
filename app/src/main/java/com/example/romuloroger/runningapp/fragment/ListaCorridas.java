@@ -210,7 +210,7 @@ public class ListaCorridas extends Fragment {
             if(Preferencias.getToken(getContext()).isEmpty()){
                 httpService = new HttpService<>("corridas", getContext(), Corrida.class);
             }else{
-                httpService = new HttpService<>("corridas/abertas", getContext(), Corrida.class);
+                httpService = new HttpService<>("corridas", getContext(), Corrida.class);
             }
             try {
                 List<Corrida> corridas = httpService.getAll("", Corrida[].class);

@@ -20,6 +20,7 @@ import com.example.romuloroger.runningapp.fragment.CadastraCorridaFragment;
 import com.example.romuloroger.runningapp.fragment.DetalhesCorridaFragment;
 import com.example.romuloroger.runningapp.fragment.ListaCorridas;
 import com.example.romuloroger.runningapp.fragment.ListaInscricoesFragment;
+import com.example.romuloroger.runningapp.fragment.ResultadoCorridaFragment;
 import com.example.romuloroger.runningapp.models.response.LoginResponse;
 import com.example.romuloroger.runningapp.utils.Preferencias;
 
@@ -29,7 +30,8 @@ public class MainActivity extends AppCompatActivity
         CadastraAtletaUsuarioFragment.OnFragmentInteractionListener,
         CadastraCorridaFragment.OnFragmentInteractionListener,
         ListaInscricoesFragment.OnFragmentInteractionListener,
-        DetalhesCorridaFragment.OnFragmentInteractionListener{
+        DetalhesCorridaFragment.OnFragmentInteractionListener,
+        ResultadoCorridaFragment.OnFragmentInteractionListener{
 
     public static final int REQUEST_LOGIN = 1;
     Fragment fInject = null;

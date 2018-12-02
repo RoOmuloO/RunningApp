@@ -3,22 +3,19 @@ package com.example.romuloroger.runningapp.adapter;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.romuloroger.runningapp.MainActivity;
 import com.example.romuloroger.runningapp.R;
 import com.example.romuloroger.runningapp.fragment.DetalhesCorridaFragment;
-import com.example.romuloroger.runningapp.fragment.ListaCorridas;
+import com.example.romuloroger.runningapp.fragment.ResultadoCorridaFragment;
 import com.example.romuloroger.runningapp.models.Corrida;
+import com.example.romuloroger.runningapp.utils.Preferencias;
 
 import java.util.List;
 
@@ -55,7 +52,11 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
         corridaViewHolder.horario.setText(hora + " Hs");
         corridaViewHolder.total.setText(corrida.getNumroInscritos() + " inscritos");
 
-        if(token != null){
+        if(!corrida.isFinalizada()){
+            corridaViewHolder.resultado.setVisibility(View.GONE);
+        }
+
+        if(!Preferencias.getToken(context).isEmpty()){
             corridaViewHolder.detalhes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -67,6 +68,20 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, myFragment).addToBackStack(null).commit();
                 }
             });
+
+            corridaViewHolder.resultado.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    Fragment myFragment = new ResultadoCorridaFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("corridaId",corrida.getId());
+                    myFragment.setArguments(bundle);
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, myFragment).addToBackStack(null).commit();
+                }
+            });
+
+
         }else {
             corridaViewHolder.detalhes.setVisibility(View.GONE);
         }
@@ -80,17 +95,17 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
 
     protected static class CorridaViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView nome, data, valor, horario, total, detalhes;
+        protected TextView nome, data, valor, horario, total, detalhes,resultado;
 
         public CorridaViewHolder(View view) {
             super(view);
             this.nome = view.findViewById(R.id.txtItemInscricaoNomeCorrida);
-            this.data = view.findViewById(R.id.txtItemInscricaoDataCorrida);
-            this.valor = view.findViewById(R.id.txtItemInscricaoValorInscricao);
+            this.data = view.findViewById(R.id.result_posicao);
+            this.valor = view.findViewById(R.id.result_pontuacao);
             this.horario = view.findViewById(R.id.txtItemCorridaHorario);
             this.total = view.findViewById(R.id.txtItemCorridaInscricoes);
             this.detalhes = view.findViewById(R.id.detalhes);
-
+            this.resultado = view.findViewById(R.id.resultado);
         }
     }
 }
