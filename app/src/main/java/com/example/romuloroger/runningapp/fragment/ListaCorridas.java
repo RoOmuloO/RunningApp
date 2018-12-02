@@ -24,6 +24,7 @@ import com.example.romuloroger.runningapp.adapter.CorridasAdapter;
 import com.example.romuloroger.runningapp.http.HttpService;
 import com.example.romuloroger.runningapp.models.Corrida;
 import com.example.romuloroger.runningapp.utils.GlobalHttpErrorHandler;
+import com.example.romuloroger.runningapp.utils.Preferencias;
 
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -141,6 +142,7 @@ public class ListaCorridas extends Fragment {
     private void filtrarCorridas() {
         this.btnFiltrar.setOnClickListener(new View.OnClickListener() {
             List<Corrida> filtro = new ArrayList<>();
+
             @Override
             public void onClick(View view) {
                 filtro = new ArrayList<>();
@@ -158,17 +160,22 @@ public class ListaCorridas extends Fragment {
                         addCorrida(corrida);
                     }
                     String totalInscritos = String.valueOf(corrida.getNumroInscritos());
-                    String totalInscritosExtenso = totalInscritos+" inscritos";
-                    if(totalInscritos.contains(txtFiltro) || totalInscritosExtenso.contains(txtFiltro)){
+                    String totalInscritosExtenso = totalInscritos + " inscritos";
+                    if (totalInscritos.contains(txtFiltro) || totalInscritosExtenso.contains(txtFiltro)) {
                         addCorrida(corrida);
                     }
                 }
-                CorridasAdapter corridasAdapter = new CorridasAdapter(filtro);
+                CorridasAdapter corridasAdapter;
+                if (Preferencias.getToken(getContext()).isEmpty()) {
+                    corridasAdapter = new CorridasAdapter(filtro);
+                } else {
+                    corridasAdapter = new CorridasAdapter(filtro, Preferencias.getToken(getContext()));
+                }
                 configurarRecView(corridasAdapter);
             }
 
-            private void addCorrida(Corrida corrida){
-                if(!filtro.contains(corrida)){
+            private void addCorrida(Corrida corrida) {
+                if (!filtro.contains(corrida)) {
                     filtro.add(corrida);
                 }
             }
@@ -226,7 +233,7 @@ public class ListaCorridas extends Fragment {
 
         private void listarCorridas(List<Corrida> corridas) {
             corridasFiltro = corridas;
-            if (token != null) {
+            if (!Preferencias.getToken(getContext()).isEmpty()) {
                 CorridasAdapter corridasAdapter = new CorridasAdapter(corridas, token);
                 configurarRecView(corridasAdapter);
             } else {
