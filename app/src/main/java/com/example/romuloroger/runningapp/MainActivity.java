@@ -122,8 +122,7 @@ public class MainActivity extends AppCompatActivity
                 }else
                     fInject = ListaCorridas.newInstance(null, "456");
                 break;
-            case R.id.nav_sobre:
-                break;
+
             case R.id.nav_sairSistema:
                 Preferencias.limparDados(this);
                 changeVisibilityMenu(R.id.nav_login, true);
@@ -132,9 +131,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_cadastrarAtleta:
                 fInject = CadastraAtletaUsuarioFragment.newInstance("Criando Atleta", "Criando Usuario");
-                break;
-            case R.id.nav_cadastrarCorrida:
-                fInject = CadastraCorridaFragment.newInstance("", "");
                 break;
             default:
                 break;
@@ -161,6 +157,7 @@ public class MainActivity extends AppCompatActivity
                 showFragment(fInject);
             }
         }
+
 
     }
 

@@ -29,6 +29,7 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
         this.corridas = corridas;
         this.token = token;
     }
+
     public CorridasAdapter(List<Corrida> corridas) {
         this.corridas = corridas;
     }
@@ -51,19 +52,20 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
         corridaViewHolder.data.setText(data);
         corridaViewHolder.horario.setText(hora + " Hs");
         corridaViewHolder.total.setText(corrida.getNumroInscritos() + " inscritos");
-
-        if(!corrida.isFinalizada()){
+        corridaViewHolder.km.setText(corrida.getKm() + " Km");
+        corridaViewHolder.status.setText(corrida.isFinalizada() ? "Finalizada" : "Aberta");
+        if (!corrida.isFinalizada()) {
             corridaViewHolder.resultado.setVisibility(View.GONE);
         }
 
-        if(!Preferencias.getToken(context).isEmpty()){
+        if (!Preferencias.getToken(context).isEmpty()) {
             corridaViewHolder.detalhes.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     Fragment myFragment = new DetalhesCorridaFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("corridaId",corrida.getId());
+                    bundle.putInt("corridaId", corrida.getId());
                     myFragment.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, myFragment).addToBackStack(null).commit();
                 }
@@ -75,15 +77,16 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     Fragment myFragment = new ResultadoCorridaFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("corridaId",corrida.getId());
+                    bundle.putInt("corridaId", corrida.getId());
                     myFragment.setArguments(bundle);
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, myFragment).addToBackStack(null).commit();
                 }
             });
 
 
-        }else {
+        } else {
             corridaViewHolder.detalhes.setVisibility(View.GONE);
+            corridaViewHolder.resultado.setVisibility(View.GONE);
         }
 
     }
@@ -95,7 +98,7 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
 
     protected static class CorridaViewHolder extends RecyclerView.ViewHolder {
 
-        protected TextView nome, data, valor, horario, total, detalhes,resultado;
+        protected TextView nome, data, valor, horario, total, detalhes, resultado, km, status;
 
         public CorridaViewHolder(View view) {
             super(view);
@@ -104,6 +107,8 @@ public class CorridasAdapter extends RecyclerView.Adapter<CorridasAdapter.Corrid
             this.valor = view.findViewById(R.id.result_pontuacao);
             this.horario = view.findViewById(R.id.txtItemCorridaHorario);
             this.total = view.findViewById(R.id.txtItemCorridaInscricoes);
+            this.km = view.findViewById(R.id.km);
+            this.status = view.findViewById(R.id.status);
             this.detalhes = view.findViewById(R.id.detalhes);
             this.resultado = view.findViewById(R.id.resultado);
         }

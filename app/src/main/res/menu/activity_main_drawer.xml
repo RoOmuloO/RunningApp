@@ -13,10 +13,6 @@
             android:icon="@android:drawable/ic_dialog_dialer"
             android:title="Listar Corridas" />
         <item
-            android:id="@+id/nav_sobre"
-            android:icon="?android:attr/alertDialogIcon"
-            android:title="Sobre o Aplicativo" />
-        <item
             android:id="@+id/nav_sairSistema"
             android:icon="@android:drawable/ic_delete"
             android:title="Sair do Sistema"
@@ -25,10 +21,6 @@
 
     <item android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_cadastrarCorrida"
-                android:icon="@android:drawable/ic_input_add"
-                android:title="Cadastrar Corrida" />
             <item
                 android:id="@+id/nav_cadastrarAtleta"
                 android:icon="@android:drawable/ic_input_add"

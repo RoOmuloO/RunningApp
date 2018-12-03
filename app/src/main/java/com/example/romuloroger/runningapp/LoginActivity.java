@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     ImageButton imgbtnLogar;
     TextView txtLoginSenhaIncorretos;
     private ProgressDialog progressDialog;
+    private final int LOGIN_AFTER_CADASTRO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +93,21 @@ public class LoginActivity extends AppCompatActivity {
                 txtLoginSenhaIncorretos.setVisibility(View.VISIBLE);
                 limparCampos();
             } else {
-                Intent itn = new Intent();
+                Intent itn = new Intent(getApplicationContext(),MainActivity.class);
                 itn.putExtra("user", response);
-                setResult(10, itn);
-                finish();
+                startActivityForResult(itn,LOGIN_AFTER_CADASTRO);
+                //setResult(10, itn);
+                //finish();
             }
             progressDialog.dismiss();
         }
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == LOGIN_AFTER_CADASTRO){
+            finish();
+        }
+    }
 }
